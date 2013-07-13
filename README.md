@@ -23,3 +23,5 @@ Use 'python draw_map.py' to display a graph.
 Caveats
 ----
 Weights aren't yet implemented.
+
+ ![Screenshot](https://raw.github.com/TQ-tranquility/xchat-social-net-graph/master/images/scr1.png)
