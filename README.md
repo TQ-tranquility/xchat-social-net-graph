@@ -20,6 +20,6 @@ Installing
 Load the 'soc_net_xc_plugin.py' plugin in xchat. By default it will create an edgefile in /tmp/soc_net.txt and update that file as chatters start mentioning each others' nicks.
 Use 'python draw_map.py' to display a graph.
 
-Bugs
+Caveats
 ----
-Matplotlib/numpy is broken under XChat's python.so
+Weights aren't yet implemented.
