@@ -1,6 +1,7 @@
 import xchat
 import re
 import networkx as nx
+import os.path
 
 ## Config info
 
