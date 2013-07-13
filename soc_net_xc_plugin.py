@@ -1,7 +1,12 @@
 import xchat
 import re
 import networkx as nx
-import matplotlib.pyplot as plt
+
+## Config info
+
+output_location = "/tmp/soc_net.txt"
+
+## End of config info
 
 __module_name__ = "TQ Social Network Map" 
 __module_version__ = "0.1" 
@@ -13,12 +18,14 @@ print "loaded %s" % __module_name__
 # Populate users[] with nicks
 v = []
 users = []
-c = xchat.find_context(channel="#test_1")
+c = xchat.find_context(channel="#lobby")
 v = c.get_list("users")
 for a in range(0, len(v)):
 	users.append(v[a].nick)
 # Build graph
 G = nx.MultiDiGraph()
+if os.path.isfile(output_location) == True:
+	G = nx.read_edgelist(output_location, delimiter=',', data=False)
 
 def priv_cb(word, word_eol, userdata):
 	temp = []
@@ -38,20 +45,13 @@ def priv_cb(word, word_eol, userdata):
 		sayer = m.group(1)
 		for e in range(0, len(intersection)):
 			G.add_edge(sayer, intersection[e])
-		# debug info:
+		nx.write_edgelist(G, output_location, delimiter=',', data = False)
+		# uncomment for debug info:
 		#print sayer, ' mentioned ', intersection
 	return xchat.EAT_NONE
-
-def makeplot():
-	print "Drawing map..."
-	pos = nx.spring_layout(G)
-	nx.draw(G, pos, node_size=100, alpha=0.2, edge_color='b', font_size=11, linewidths=0, width=2)
-	plt.show()
-	return xchat.EAT_ALL
 
 def unload_cb(userdata): 
 	print "unloaded %s" % __module_name__
 
 xchat.hook_server("PRIVMSG", priv_cb)
-xchat.hook_command("GRAPH", makeplot, help="/GRAPH draws a socia network map")
 xchat.hook_unload(unload_cb) 
